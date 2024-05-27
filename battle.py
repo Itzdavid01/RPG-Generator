@@ -55,10 +55,13 @@ class Battle: # returning 0 on a method = you died, returning 1 = you won.
 	def beAttacked(self):
 		HP = self.player.HP
 		Dmg = self.enemy.gear.equip[0].stats - self.player.defense - (self.gear.equip[2].stats) # randomly uses either offhand or main hand
-		if Dmg < 0:
-			Dmg = 0
 		evasion = 100 - self.player.evasion
-		print(f"{self.enemy.name} attacks you, a hit worth {Dmg} damage!")
+		if Dmg < 0: 
+			Dmg = 0 # If damage is 0 then the player wont take damage from the enemy
+			print(f"{self.enemy.name} attacks you, it has no effect!") 
+			return 1 # You can return since the enemy's attack will have no effect
+		else: # Else, the enemy can surely damage the player, since damage wont be 0!
+			print(f"{self.enemy.name} attacks you, a hit worth {Dmg} damage!")
 		if evasion >= random.random()*100:
 			HP -= Dmg
 			if HP <= 0:
